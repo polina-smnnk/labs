@@ -1,10 +1,19 @@
-const seq = (f) => (g) => {
-  if (g === "Number") {
-    return (x) => f(g(x));
-  } else {
-    return (x) => g(f(x));
-  }
-};
-console.log(seq((x) => x + 5)((x) => x * 3)(8));
-console.log(seq((x) => x + 9)((x) => x * 3)(18));
-// Функція, яка приймає дві функції і повертає нову функцію, яка є композицією цих двох функцій.
+function seq(...args) {
+  const functions = [...args];
+
+  const a = (...newArgs) => {
+    if (typeof newArgs[0] === "function") {
+      functions.push(...newArgs);
+      return a;
+    } else {
+      return functions.reduceRight((result, fn) => fn(result), newArgs[0]);
+    }
+  };
+  return a;
+}
+console.log(seq((x) => x + 7)((x) => x * 2)(5));
+console.log(seq((x) => x + 2)((x) => x * 7)(5));
+console.log(seq((x) => x + 1)((x) => x * 2)((x) => x / 3)((x) => x - 4)(7));
+
+
+// Функція, яка приймає будь-яку кількість функцій як аргументи і повертає нову функцію.

@@ -17,5 +17,5 @@ const iface = {
     return [x, y, z];
   },
 };
-console.log(methods(iface))
+console.table(methods(iface))
 // Функція, яка приймає об'єкт і повертає масив з іменами його методів та кількістю їхніх параметрів.
